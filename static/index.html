@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>GlassBox · Sandboxed explainable-ML agent</title>
+<meta name="description" content="Upload a CSV. An agent runs explainable-ML code in a throwaway Vultr sandbox and proves every number.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%232563eb'/%3E%3Crect x='8' y='8' width='16' height='16' rx='3' fill='none' stroke='white' stroke-width='2.5'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="brand">
+    <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><rect x="3" y="3" width="26" height="26" rx="7" fill="currentColor" opacity=".14"/><rect x="9" y="9" width="14" height="14" rx="3" stroke="currentColor" stroke-width="2.4"/><path d="M13 16h6M16 13v6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+    GlassBox
+  </div>
+  <div class="badges" id="badges" aria-label="System status"></div>
+</div></header>
+
+<main class="wrap">
+  <section class="hero">
+    <h1>See inside the model. Trust the run.</h1>
+    <p>Upload a CSV and ask a question. An agent writes ML code, executes it in a throwaway, network-less sandbox on Vultr, and returns real results, a claim-checked explanation, and a verifiable receipt.</p>
+  </section>
+
+  <section class="card" aria-labelledby="h-input">
+    <h2 id="h-input">1 · Your data and question</h2>
+    <div class="grid">
+      <div>
+        <label class="drop" id="drop" for="file">
+          <input type="file" id="file" accept=".csv,text/csv">
+          <strong>Drop a CSV here or click to browse</strong>
+          <small>UTF-8, header row, at least 20 rows, up to <span id="maxkb">2000</span> KB</small>
+        </label>
+        <div class="file-pill chip" id="filePill"></div>
+        <p class="hint">No data handy? <button class="ghost" id="sample" type="button">Use the sample churn dataset</button></p>
+      </div>
+      <div>
+        <label class="fl" for="goal">What do you want to understand?</label>
+        <textarea id="goal" maxlength="500">Which features drive the target, and how much better is the model than a naive baseline?</textarea>
+        <label class="fl" for="target">Target column</label>
+        <select id="target"><option value="">(last column)</option></select>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="primary" id="run" type="button" disabled>Run analysis</button>
+      <button id="demo" type="button">Run containment demo</button>
+      <span class="hint" id="status" role="status" aria-live="polite"></span>
+    </div>
+  </section>
+
+  <section class="card" id="pipeline" hidden aria-labelledby="h-pipe">
+    <h2 id="h-pipe">Live pipeline</h2>
+    <ol class="steps" id="steps"></ol>
+  </section>
+
+  <div id="alert" role="alert"></div>
+  <div id="results"></div>
+
+  <section class="card" id="demoCard" hidden aria-labelledby="h-demo">
+    <div class="row"><h2 id="h-demo">Containment demo</h2><span class="spacer"></span><span id="demoVerdict"></span></div>
+    <p class="hint">Hostile programs run inside the same sandbox, with the code policy gate deliberately bypassed, to prove the container itself holds.</p>
+    <div class="attacks" id="attacks"></div>
+  </section>
+</main>
+
+<footer><div class="wrap">GlassBox · Vultr Agent Rush · Containment-first: no network, no secrets, read-only root, capped CPU/RAM/PIDs/time, destroyed after every run.</div></footer>
+<script src="/app.js" defer></script>
+</body>
+</html>
